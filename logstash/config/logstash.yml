@@ -5,3 +5,24 @@
 http.host: 0.0.0.0
 
 node.name: logstash
+
+# X-Pack Security Options
+# https://www.elastic.co/guide/en/logstash/current/monitoring-logstash.html
+#xpack.monitoring.enabled: true
+#xpack.monitoring.elasticsearch.hosts: http://elasticsearch:9201
+#xpack.monitoring.elasticsearch.username: "logstash_internal"
+#xpack.monitoring.elasticsearch.password: ${LOGSTASH_INTERNAL_PASSWORD}
+#xpack.monitoring.elasticsearch.ssl.certificate_authority: "config/ca.crt"
+
+# X-Pack Management
+# https://www.elastic.co/guide/en/logstash/current/logstash-centralized-pipeline-management.html
+#xpack.management.enabled: false
+#xpack.management.pipeline.id: ["main", "apache_logs"]
+#xpack.management.elasticsearch.hosts: ["https://elasticsearch.doh.gov.ph"]
+#xpack.management.elasticsearch.username: "logstash_internal"
+#xpack.management.elasticsearch.password: ${LOGSTASH_INTERNAL_PASSWORD}
+
+# X-Pack GeoIP plugin
+# https://www.elastic.co/guide/en/logstash/current/plugins-filters-geoip.html#plugins-filters-geoip-manage_update
+xpack.geoip.download.endpoint: "https://geoip.elastic.co/v1/database"
+xpack.geoip.downloader.enabled: true

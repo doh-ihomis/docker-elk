@@ -7,6 +7,7 @@ instances:
 - name: elasticsearch
   dns:
   - elasticsearch  # Compose service, resolved by the embedded Docker DNS server name
+  - elasticsearch.doh.gov.ph
   - localhost      # local connections
   ip:
   - 127.0.0.1      # local connections
@@ -17,6 +18,7 @@ instances:
   - kibana.127.0.0.1.nip.io    # Examples of resolvable domains.
   - kibana.127.0.0.1.sslip.io  #
   - localhost
+  - kibana.doh.gov.ph
   ip:
   - 127.0.0.1
   - ::1
@@ -25,6 +27,7 @@ instances:
   dns:
   - fleet-server
   - localhost
+  - fleet-server.doh.gov.ph
   ip:
   - 127.0.0.1
   - ::1
@@ -33,6 +36,7 @@ instances:
   dns:
   - apm-server
   - localhost
+  - apm-server.doh.gov.ph
   ip:
   - 127.0.0.1
   - ::1
