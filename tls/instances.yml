@@ -15,8 +15,7 @@ instances:
 
 - name: kibana
   dns:
-  - kibana.127.0.0.1.nip.io    # Examples of resolvable domains.
-  - kibana.127.0.0.1.sslip.io  #
+  - kibana
   - localhost
   - kibana.doh.gov.ph
   ip:
@@ -37,6 +36,15 @@ instances:
   - apm-server
   - localhost
   - apm-server.doh.gov.ph
+  ip:
+  - 127.0.0.1
+  - ::1
+
+- name: logstash
+  dns:
+  - logstash
+  - localhost
+  - logstash.doh.gov.ph
   ip:
   - 127.0.0.1
   - ::1

@@ -7,10 +7,15 @@ network.host: 0.0.0.0
 http.host: 0.0.0.0
 http.port: 9201
 
+discovery.type: single-node
+
+#discovery.seed_hosts: ["eleasticsearch.doh.gov.ph"]
 ## X-Pack settings
 ## see https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html
 #
 xpack.license.self_generated.type: basic
+
+bootstrap.memory_lock: true
 
 # Security
 xpack.security.enabled: true
@@ -40,4 +45,4 @@ xpack.security.http.ssl.certificate: elasticsearch.crt
 xpack.security.http.ssl.key: elasticsearch.key
 
 # Monitoring
-xpack.monitoring.collection.enabled: true
+#xpack.monitoring.collection.enabled: true

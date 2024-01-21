@@ -3,7 +3,7 @@
 
 elasticsearch:
   client:
-    hosts: [ https://elasticsearch:9200 ]
+    hosts: [ https://elasticsearch:9201 ]
     ca_certs: /.curator/ca.crt
   other_settings:
     username: elastic

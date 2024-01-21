@@ -1,3 +1,33 @@
+sudo sysctl -w vm.max_map_count=262144
+
+sudo vi /etc/sysctl.conf
+
+vm.max_map_count=262144
+
+last working version
+8.11.4
+
+# Docker
+
+docker compose up setup
+
+docker compose up -d
+
+# /etc/fstab
+
+//10.11.132.178/ssed2/disks/applications/elk/elasticsearch /mnt/disks/elk/elasticsearch cifs vers=3.1.1,uid=1000,gid=1000,dir_mode=0777,credentials=/root/.smbcredentials
+
+
+# Mount Folders
+
+sudo mount -t cifs -o rw,uid=$(id -u),gid=0,vers=3.1.1,dir_mode=0775,credentials=/root/.smbcredentials //10.11.132.178/ssed2/disks/applications/elk/elasticsearch /mnt/disks/elk/elasticsearch
+
+sudo umount /mnt/disks/elk/elasticsearch
+
+
+docker compose -f docker-compose.yml -f extensions/fleet/fleet-compose.yml up -d
+
+
 # Elastic stack (ELK) on Docker
 
 [![Elastic Stack version](https://img.shields.io/badge/Elastic%20Stack-8.11.1-00bfb3?style=flat&logo=elastic-stack)](https://www.elastic.co/blog/category/releases)

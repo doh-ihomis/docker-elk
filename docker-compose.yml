@@ -76,7 +76,8 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
-      - /mnt/disks/elk/elasticsearch:/usr/share/elasticsearch/data:Z
+      #- elasticsearch:/usr/share/elasticsearch/data:Z
+      - /mnt/disks/elk/elasticsearch:/usr/share/elasticsearch/data
       # (!) TLS certificates. Generate using the 'tls' service.
       - ./tls/certs/ca/ca.crt:/usr/share/elasticsearch/config/ca.crt:ro,z
       - ./tls/certs/elasticsearch/elasticsearch.crt:/usr/share/elasticsearch/config/elasticsearch.crt:ro,z
@@ -95,20 +96,35 @@ services:
       # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
       discovery.type: single-node
       LOG_LEVEL: debug
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          #"curl -s --cacert config/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'"
+          "curl -s --user elastic:${ELASTIC_PASSWORD} -X GET http://localhost:9201/_cluster/health?pretty | grep status | grep -q '\\(green\\|yellow\\)'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
     labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik
-      - traefik.backend=elasticsearch
-      - traefik.http.middlewares.redirect-web-secure.redirectscheme.scheme=https
-      - traefik.http.routers.elasticsearch-web.middlewares=redirect-web-secure
-      - traefik.http.routers.elasticsearch-web.rule=Host(`elasticsearch.doh.gov.ph`)
-      - traefik.http.routers.elasticsearch-web.entrypoints=web
-      - traefik.http.routers.elasticsearch-web-secure.rule=Host(`elasticsearch.doh.gov.ph`)
-      - traefik.http.routers.elasticsearch-web-secure.entrypoints=web-secure
-      - traefik.http.routers.elasticsearch-web-secure.tls=true
-      - traefik.http.routers.elasticsearch-web-secure.tls.certresolver=default
-      - traefik.http.routers.elasticsearch-web-secure.service=elasticsearch-service
-      - traefik.http.services.elasticsearch-service.loadbalancer.server.port=9201
+      - co.elastic.logs/module=elasticsearch
+#      - traefik.enable=true
+#      - traefik.docker.network=traefik
+#      - traefik.backend=elasticsearch
+#      - traefik.http.middlewares.redirect-web-secure.redirectscheme.scheme=https
+#      - traefik.http.routers.elasticsearch-web.middlewares=redirect-web-secure
+#      - traefik.http.routers.elasticsearch-web.rule=Host(`elasticsearch.doh.gov.ph`)
+#      - traefik.http.routers.elasticsearch-web.entrypoints=web
+#      - traefik.http.routers.elasticsearch-web-secure.rule=Host(`elasticsearch.doh.gov.ph`)
+#      - traefik.http.routers.elasticsearch-web-secure.entrypoints=web-secure
+#      - traefik.http.routers.elasticsearch-web-secure.tls=true
+#      - traefik.http.routers.elasticsearch-web-secure.tls.certresolver=default
+#      - traefik.http.routers.elasticsearch-web-secure.service=elasticsearch-service
+#      - traefik.http.services.elasticsearch-service.loadbalancer.server.port=9201
     networks:
       - elk
       - monitor-net
@@ -124,8 +140,8 @@ services:
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
       # (!) CA certificate. Generate using the 'tls' service.
       - ./tls/certs/ca/ca.crt:/usr/share/logstash/config/ca.crt:ro,z
-      - ./tls/certs/elastic/elastic.crt:/usr/share/logstash/config/elastic.crt:ro,z
-      - ./tls/certs/elastic/elastic.key:/usr/share/logstash/config/elastic.key:ro,z
+      - ./tls/certs/logstash/logstash.crt:/usr/share/logstash/config/logstash.crt:ro,z
+      - ./tls/certs/logstash/logstash.key:/usr/share/logstash/config/logstash.key:ro,z
     ports:
       - 5044:5044
       - 50000:50000/tcp
@@ -135,25 +151,26 @@ services:
       LS_JAVA_OPTS: -Xmx1g -Xmx1g
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
       #LOG_LEVEL: debug
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik
-      - traefik.backend=logstash
-      - traefik.http.middlewares.redirect-web-secure.redirectscheme.scheme=https
-      - traefik.http.routers.logstash-web.middlewares=redirect-web-secure
-      - traefik.http.routers.logstash-web.rule=Host(`logstash.doh.gov.ph`)
-      - traefik.http.routers.logstash-web.entrypoints=web
-      - traefik.http.routers.logstash-web-secure.rule=Host(`logstash.doh.gov.ph`)
-      - traefik.http.routers.logstash-web-secure.entrypoints=web-secure
-      - traefik.http.routers.logstash-web-secure.tls=true
-      - traefik.http.routers.logstash-web-secure.tls.certresolver=default
-      - traefik.http.routers.logstash-web-secure.service=logstash-service
-      - traefik.http.services.logstash-service.loadbalancer.server.port=5044
+#    labels:
+#      - traefik.enable=true
+#      - traefik.docker.network=traefik
+#      - traefik.backend=logstash
+#      - traefik.http.middlewares.redirect-web-secure.redirectscheme.scheme=https
+#      - traefik.http.routers.logstash-web.middlewares=redirect-web-secure
+#      - traefik.http.routers.logstash-web.rule=Host(`logstash.doh.gov.ph`)
+#      - traefik.http.routers.logstash-web.entrypoints=web
+#      - traefik.http.routers.logstash-web-secure.rule=Host(`logstash.doh.gov.ph`)
+#      - traefik.http.routers.logstash-web-secure.entrypoints=web-secure
+#      - traefik.http.routers.logstash-web-secure.tls=true
+#      - traefik.http.routers.logstash-web-secure.tls.certresolver=default
+#      - traefik.http.routers.logstash-web-secure.service=logstash-service
+#      - traefik.http.services.logstash-service.loadbalancer.server.port=5044
     networks:
       - elk
       - monitor-net
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     restart: unless-stopped
 
   kibana:
@@ -171,6 +188,15 @@ services:
       - 5601:5601
     environment:
       KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -I -s http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
@@ -184,12 +210,13 @@ services:
       - traefik.http.routers.kibana-web-secure.tls=true
       - traefik.http.routers.kibana-web-secure.tls.certresolver=default
       - traefik.http.routers.kibana-web-secure.service=kibana-service
-      - traefik.http.services.kibana-service.loadbalancer.server.port=5602
+      - traefik.http.services.kibana-service.loadbalancer.server.port=5601
     networks:
       - elk
       - monitor-net
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     restart: unless-stopped
 
 networks:
@@ -199,3 +226,6 @@ networks:
     external: true
   traefik:
     external: true
+
+volumes:
+  elasticsearch:
