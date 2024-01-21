@@ -17,7 +17,7 @@ metricbeat.autodiscover:
 
 metricbeat.modules:
 - module: elasticsearch
-  hosts: [ https://elasticsearch:9201 ]
+  hosts: [ https://elasticsearch:9200 ]
   username: monitoring_internal
   password: ${MONITORING_INTERNAL_PASSWORD}
   ssl:
@@ -61,7 +61,7 @@ monitoring:
     password: ${BEATS_SYSTEM_PASSWORD}
 
 output.elasticsearch:
-  hosts: [ https://elasticsearch:9201 ]
+  hosts: [ https://elasticsearch:9200 ]
   username: metricbeat_internal
   password: ${METRICBEAT_INTERNAL_PASSWORD}
   ssl:

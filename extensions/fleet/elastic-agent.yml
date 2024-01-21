@@ -6,7 +6,7 @@
 output:
   elasticsearch:
     protocol: http
-    hosts: '${ELASTICSEARCH_HOST:http://localhost:9201}'
+    hosts: 'http://localhost:9200'
     username: "elastic"
     password: '${ELASTICSEARCH_PASSWORD}'
     preset: balanced

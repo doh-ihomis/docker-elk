@@ -9,7 +9,7 @@ node.name: logstash
 # X-Pack Security Options
 # https://www.elastic.co/guide/en/logstash/current/monitoring-logstash.html
 #xpack.monitoring.enabled: true
-#xpack.monitoring.elasticsearch.hosts: http://elasticsearch:9201
+#xpack.monitoring.elasticsearch.hosts: http://elasticsearch:9200
 #xpack.monitoring.elasticsearch.username: "logstash_internal"
 #xpack.monitoring.elasticsearch.password: ${LOGSTASH_INTERNAL_PASSWORD}
 #xpack.monitoring.elasticsearch.ssl.certificate_authority: "config/ca.crt"

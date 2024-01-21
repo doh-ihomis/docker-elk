@@ -83,7 +83,7 @@ services:
       - ./tls/certs/elasticsearch/elasticsearch.crt:/usr/share/elasticsearch/config/elasticsearch.crt:ro,z
       - ./tls/certs/elasticsearch/elasticsearch.key:/usr/share/elasticsearch/config/elasticsearch.key:ro,z
     ports:
-      - 9201:9200
+      - 9200:9200
       - 9300:9300
     environment:
       node.name: elasticsearch
@@ -105,7 +105,7 @@ services:
         [
           "CMD-SHELL",
           #"curl -s --cacert config/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'"
-          "curl -s --user elastic:${ELASTIC_PASSWORD} -X GET http://localhost:9201/_cluster/health?pretty | grep status | grep -q '\\(green\\|yellow\\)'",
+          "curl -s --user elastic:${ELASTIC_PASSWORD} -X GET http://localhost:9200/_cluster/health?pretty | grep status | grep -q '\\(green\\|yellow\\)'",
         ]
       interval: 10s
       timeout: 10s
@@ -124,7 +124,7 @@ services:
 #      - traefik.http.routers.elasticsearch-web-secure.tls=true
 #      - traefik.http.routers.elasticsearch-web-secure.tls.certresolver=default
 #      - traefik.http.routers.elasticsearch-web-secure.service=elasticsearch-service
-#      - traefik.http.services.elasticsearch-service.loadbalancer.server.port=9201
+#      - traefik.http.services.elasticsearch-service.loadbalancer.server.port=9200
     networks:
       - elk
       - monitor-net
