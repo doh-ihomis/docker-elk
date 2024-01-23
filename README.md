@@ -13,6 +13,8 @@ docker compose up setup
 
 docker compose up -d
 
+
+
 # /etc/fstab
 
 //10.11.132.178/ssed2/disks/applications/elk/elasticsearch /mnt/disks/elk/elasticsearch cifs vers=3.1.1,uid=1000,gid=1000,dir_mode=0777,credentials=/root/.smbcredentials

@@ -8,7 +8,7 @@ server.publicBaseUrl: "http://kibana.doh.gov.ph"
 server.port: 5601
 
 # Elasticsearch settings
-elasticsearch.hosts: [ http://elasticsearch:9200 ]
+elasticsearch.hosts: [ https://elasticsearch:9200 ]
 
 # Elasticsearch monitoring settings
 monitoring.ui.container.elasticsearch.enabled: true
@@ -37,7 +37,7 @@ server.ssl.enabled: false
 server.ssl.certificate: config/kibana.crt
 server.ssl.key: config/kibana.key
 
-xpack.reporting.kibanaServer.hostname: localhost
+#xpack.reporting.kibanaServer.hostname: localhost
 
 ## Encryption keys (optional but highly recommended)
 ##
@@ -63,7 +63,7 @@ xpack.security.encryptionKey: 39e989f1465c3b209b8f4b28c609cfc3
 
 # fleet settings for Elastic-agent
 #xpack.fleet.enabled: true
-xpack.fleet.agents.enabled: true
+#xpack.fleet.agents.enabled: true
 #xpack.fleet.agents.tlsCheckDisabled: true
 #xpack.fleet.agents.kibana.host: "http://kibana.doh.gov.ph:5602"
 #xpack.fleet.agents.elasticsearch.host: "http://elasticsearch.doh.gov.ph:9200"
@@ -73,17 +73,17 @@ xpack.fleet.agents.enabled: true
 
 xpack.reporting.roles.enabled: false
 
-xpack.fleet.agents.fleet_server.hosts: [ https://fleet-server.doh.gov.ph:8220 ]
+xpack.fleet.agents.fleet_server.hosts: [ https://fleet-server:8220 ]
 
 telemetry.enabled: "true"
 
 xpack.fleet.outputs:
-  - id: prod-fleet-server
+  - id: fleet-default-output
     name: default
     type: elasticsearch
-    hosts: [ http://elasticsearch.doh.gov.ph:9200 ]
+    hosts: [ https://elasticsearch:9200 ]
     # Set to output of 'docker-compose up tls'. Example:
-    #ca_trusted_fingerprint: 846637d1bb82209640d31b79869a370c8e47c2dc15c7eafd4f3d615e51e3d503
+    ca_trusted_fingerprint: 1850af9ffbf3ea3b3a95ee3839c53780613b8e7bd0daf86797f80a988f65bebc
     is_default: true
     is_default_monitoring: true
 
