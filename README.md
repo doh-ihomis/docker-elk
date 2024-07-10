@@ -13,7 +13,8 @@ docker compose up setup
 
 docker compose up -d
 
-
+## uninstall from linux
+sudo /opt/Elastic/Agent/elastic-agent uninstall
 
 # /etc/fstab
 

@@ -12,6 +12,7 @@ instances:
   ip:
   - 127.0.0.1      # local connections
   - ::1
+  - 10.11.134.8
 
 - name: kibana
   dns:
@@ -21,6 +22,7 @@ instances:
   ip:
   - 127.0.0.1
   - ::1
+  - 10.11.134.8
 
 - name: fleet-server
   dns:
@@ -30,6 +32,7 @@ instances:
   ip:
   - 127.0.0.1
   - ::1
+  - 10.11.134.8
 
 - name: apm-server
   dns:
@@ -39,6 +42,7 @@ instances:
   ip:
   - 127.0.0.1
   - ::1
+  - 10.11.134.8
 
 - name: logstash
   dns:
@@ -48,3 +52,4 @@ instances:
   ip:
   - 127.0.0.1
   - ::1
+  - 10.11.134.8

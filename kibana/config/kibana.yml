@@ -73,7 +73,7 @@ xpack.security.encryptionKey: 39e989f1465c3b209b8f4b28c609cfc3
 
 xpack.reporting.roles.enabled: false
 
-xpack.fleet.agents.fleet_server.hosts: [ https://fleet-server:8220 ]
+xpack.fleet.agents.fleet_server.hosts: [ https://10.11.134.8:8220 ]
 
 telemetry.enabled: "true"
 
@@ -83,7 +83,7 @@ xpack.fleet.outputs:
     type: elasticsearch
     hosts: [ https://elasticsearch:9200 ]
     # Set to output of 'docker-compose up tls'. Example:
-    ca_trusted_fingerprint: 1850af9ffbf3ea3b3a95ee3839c53780613b8e7bd0daf86797f80a988f65bebc
+    ca_trusted_fingerprint: 30a4472d74454911c0fafff64fe055ff4807cbd0b615a8eeebe1945a16718f81
     is_default: true
     is_default_monitoring: true
 
